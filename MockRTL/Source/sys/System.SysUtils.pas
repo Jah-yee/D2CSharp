@@ -191,15 +191,18 @@ type
     cAlternateFileName: array[0..13] of WideChar;
   end;
 
-  TEraInfo = record
-  public
-    EraName: string;
-    EraOffset: Integer;
-    EraStart: TDateTime;
-    EraEnd: TDateTime;
-  end;
 
-  TFormatSettings = record
+ TFormatSettings = record
+  public
+    type
+      TEraInfo = record
+      public
+        EraName: string;
+        EraOffset: Integer;
+        EraStart: TDateTime;
+        EraEnd: TDateTime;
+      end;
+  
     CurrencyFormat: Byte;
     NegCurrFormat: Byte;
     ThousandSeparator: Char;

@@ -113,28 +113,27 @@ public class SysutilsInterface
 		}
 	}	
 
-	public struct TEraInfo
-	{
-		public string EraName;
-		public int EraOffset;
-		public TDateTime EraStart;
-		public TDateTime EraEnd;
-		public void CreateRecordMembers()
-		{
-			EraName = string.Empty;
-			EraStart = new TDateTime();
-			EraEnd = new TDateTime();
-		}
-		public static TEraInfo CreateRecord()
-		{
-			TEraInfo tmp = new TEraInfo();
-			tmp.CreateRecordMembers();
-			return tmp;
-		}
-	}	
-
 	public struct TFormatSettings
 	{
+		public struct TEraInfo
+		{
+			public string EraName;
+			public int EraOffset;
+			public TDateTime EraStart;
+			public TDateTime EraEnd;
+			public void CreateRecordMembers()
+			{
+				EraName = string.Empty;
+				EraStart = new TDateTime();
+				EraEnd = new TDateTime();
+			}
+			public static TEraInfo CreateRecord()
+			{
+				TEraInfo tmp = new TEraInfo();
+				tmp.CreateRecordMembers();
+				return tmp;
+			}
+		}		
 		public byte CurrencyFormat;
 		public byte NegCurrFormat;
 		public char ThousandSeparator;
