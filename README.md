@@ -123,7 +123,7 @@ The `UserCode` directories make the current development state directly usable fo
 
 The project is still at an early stage of development, but the current repository already provides a working basis for further development and testing.
 
-The current test suite contains 66 Delphi test files. At present, 40 of them are translated without requiring manual corrections to the generated C# code.
+The current test suite contains 66 Delphi test files.
 
 Test cases that are not yet fully functional are temporarily disabled where necessary so that the complete test application can still be built and executed.
 
