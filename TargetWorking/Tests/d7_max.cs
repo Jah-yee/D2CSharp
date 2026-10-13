@@ -1,8 +1,8 @@
-//using System.Dmath;
+using System.Dmath;
 using System;
 using static D7_max.D7_maxImplementation;
 using static D7_max.D7_maxInterface;
-//using static System.Dmath.DmathInterface;
+using static System.Dmath.DmathInterface;
 using static System.SystemInterface;
 
 
@@ -38,20 +38,20 @@ namespace D7_max
 
     public class D7_maxInterface
     {
-        //public static bool RunMaxChecks()
-        //{
-        //    bool result = false;
-        //    bool CheckResult1 = false;
-        //    bool CheckResult2 = false;
-        //    bool CheckResult3 = false;
-        //    CheckResult1 = (Max(17, 42) == 42);
-        //    result = CheckResult1;
-        //    CheckResult2 = (Max(-3, -9) == -3);
-        //    result = result && CheckResult2;
-        //    CheckResult3 = (Abs(Max(2.75D, 8.5D) - 8.5D) < 1E-10D);
-        //    result = result && CheckResult3;
-        //    return result;
-        //}
+        public static bool RunMaxChecks()
+        {
+            bool result = false;
+            bool CheckResult1 = false;
+            bool CheckResult2 = false;
+            bool CheckResult3 = false;
+            CheckResult1 = (Max(17, 42) == 42);
+            result = CheckResult1;
+            CheckResult2 = (Max(-3, -9) == -3);
+            result = result && CheckResult2;
+            CheckResult3 = (Abs(Max(2.75D, 8.5D) - 8.5D) < 1E-10D);
+            result = result && CheckResult3;
+            return result;
+        }
 
     } // class D7_maxInterface
 

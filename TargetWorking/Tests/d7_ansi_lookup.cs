@@ -1,8 +1,8 @@
-//using System.Strutils;
+using System.Strutils;
 using System;
 using static D7_ansi_lookup.D7_ansi_lookupImplementation;
 using static D7_ansi_lookup.D7_ansi_lookupInterface;
-//using static System.Strutils.StrutilsInterface;
+using static System.Strutils.StrutilsInterface;
 using static System.SystemInterface;
 
 
@@ -38,28 +38,28 @@ namespace D7_ansi_lookup
 
     public class D7_ansi_lookupInterface
     {
-        //public static bool RunAnsiLookupChecks()
-        //{
-        //    bool result = false;
-        //    AnsiString CurrentStage = AnsiString.Empty;
-        //    bool CheckResult1 = false;
-        //    bool CheckResult2 = false;
-        //    bool CheckResult3 = false;
-        //    bool CheckResult4 = false;
-        //    bool CheckResult5 = false;
-        //    CurrentStage = "package";
-        //    CheckResult1 = AnsiMatchStr(CurrentStage.Decode(), new string[] { "plan", "compile", "package", "publish" });
-        //    result = CheckResult1;
-        //    CheckResult2 = !AnsiMatchStr("PACKAGE", new string[] { "plan", "compile", "package", "publish" });
-        //    result = result && CheckResult2;
-        //    CheckResult3 = (AnsiIndexStr(CurrentStage.Decode(), new string[] { "plan", "compile", "package", "publish" }) == 2);
-        //    result = result && CheckResult3;
-        //    CheckResult4 = (AnsiIndexStr("missing", PipelineStages) == -1);
-        //    result = result && CheckResult4;
-        //    CheckResult5 = (AnsiIndexStr(CurrentStage.Decode(), PipelineStages) == 2);
-        //    result = result && CheckResult5;
-        //    return result;
-        //}
+        public static bool RunAnsiLookupChecks()
+        {
+            bool result = false;
+            AnsiString CurrentStage = AnsiString.Empty;
+            bool CheckResult1 = false;
+            bool CheckResult2 = false;
+            bool CheckResult3 = false;
+            bool CheckResult4 = false;
+            bool CheckResult5 = false;
+            CurrentStage = "package";
+            CheckResult1 = AnsiMatchStr(CurrentStage.Decode(), new string[] { "plan", "compile", "package", "publish" });
+            result = CheckResult1;
+            CheckResult2 = !AnsiMatchStr("PACKAGE", new string[] { "plan", "compile", "package", "publish" });
+            result = result && CheckResult2;
+            CheckResult3 = (AnsiIndexStr(CurrentStage.Decode(), new string[] { "plan", "compile", "package", "publish" }) == 2);
+            result = result && CheckResult3;
+            CheckResult4 = (AnsiIndexStr("missing", PipelineStages) == -1);
+            result = result && CheckResult4;
+            CheckResult5 = (AnsiIndexStr(CurrentStage.Decode(), PipelineStages) == 2);
+            result = result && CheckResult5;
+            return result;
+        }
 
     } // class D7_ansi_lookupInterface
 

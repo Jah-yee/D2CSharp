@@ -46,10 +46,10 @@ namespace D7_currency
             bool CheckResult3 = false;
             CheckResult1 = CheckCurrencyStorage();
             result = CheckResult1;
-            //CheckResult2 = CheckCurrencyLayouts();
-            //result = result && CheckResult2;
-            //CheckResult3 = CheckCurrencyConversions();
-            //result = result && CheckResult3;
+            CheckResult2 = CheckCurrencyLayouts();
+            result = result && CheckResult2;
+            CheckResult3 = CheckCurrencyConversions();
+            result = result && CheckResult3;
             return result;
         }
 
@@ -73,71 +73,71 @@ namespace D7_currency
             return result;
         }
 
-        //public static bool CheckCurrencyLayouts()
-        //{
-        //    bool result = false;
-        //    string[] Expected = new string[4/*# range 0..3*/] { "CRD27", "27CRD", "CRD 27", "27 CRD" };
-        //    TFormatSettings SavedSettings = TFormatSettings.CreateRecord();
-        //    int Layout = 0;
-        //    string Rendered = string.Empty;
-        //    SavedSettings = FormatSettings;
-        //    try
-        //    {
-        //        FormatSettings.CurrencyString = "CRD";
-        //        FormatSettings.CurrencyDecimals = 0;
-        //        result = true;
-        //        for (Layout = 0; Layout <= 3; Layout++)
-        //        {
-        //            FormatSettings.CurrencyFormat = (byte)Layout;
-        //            Rendered = CurrToStrF(27, TFloatFormat.ffCurrency, 0);
-        //            result = result && (Rendered == Expected[Layout]);
-        //        }
-        //    }
-        //    finally
-        //    {
-        //        FormatSettings = SavedSettings;
-        //    }
-        //    return result;
-        //}
+        public static bool CheckCurrencyLayouts()
+        {
+            bool result = false;
+            string[] Expected = new string[4/*# range 0..3*/] { "CRD27", "27CRD", "CRD 27", "27 CRD" };
+            TFormatSettings SavedSettings = TFormatSettings.CreateRecord();
+            int Layout = 0;
+            string Rendered = string.Empty;
+            SavedSettings = FormatSettings;
+            try
+            {
+                FormatSettings.CurrencyString = "CRD";
+                FormatSettings.CurrencyDecimals = 0;
+                result = true;
+                for (Layout = 0; Layout <= 3; Layout++)
+                {
+                    FormatSettings.CurrencyFormat = (byte)Layout;
+                    Rendered = CurrToStrF(27, TFloatFormat.ffCurrency, 0);
+                    result = result && (Rendered == Expected[Layout]);
+                }
+            }
+            finally
+            {
+                FormatSettings = SavedSettings;
+            }
+            return result;
+        }
 
-        //public static bool CheckCurrencyConversions()
-        //{
-        //    bool result = false;
-        //    TFormatSettings SavedSettings = TFormatSettings.CreateRecord();
-        //    Currency Amount = 0.0M;
-        //    string FormattedAmount = string.Empty;
-        //    string CurrencyAsString = string.Empty;
-        //    string CurrencyWithThreeDecimals = string.Empty;
-        //    string CurrencyWithoutDecimals = string.Empty;
-        //    bool IsFormattedAmountValid = false;
-        //    bool IsCurrencyStringValid = false;
-        //    bool IsThreeDecimalFormatValid = false;
-        //    bool IsZeroDecimalFormatValid = false;
-        //    SavedSettings = FormatSettings;
-        //    try
-        //    {
-        //        FormatSettings.DecimalSeparator = ',';
-        //        FormatSettings.ThousandSeparator = '.';
-        //        FormatSettings.CurrencyString = "CRD";
-        //        FormatSettings.CurrencyFormat = 3;
-        //        FormatSettings.CurrencyDecimals = 2;
-        //        Amount = 7654.321M;
-        //        FormattedAmount = Format("%m", new TVarRec[] { Amount });
-        //        CurrencyAsString = CurrToStr(42.375M);
-        //        CurrencyWithThreeDecimals = CurrToStrF(Amount, TFloatFormat.ffCurrency, 3);
-        //        CurrencyWithoutDecimals = CurrToStrF(Amount, TFloatFormat.ffCurrency, 0);
-        //        IsFormattedAmountValid = FormattedAmount == "7.654,32 CRD";
-        //        IsCurrencyStringValid = CurrencyAsString == "42,375";
-        //        IsThreeDecimalFormatValid = CurrencyWithThreeDecimals == "7.654,321 CRD";
-        //        IsZeroDecimalFormatValid = CurrencyWithoutDecimals == "7.654 CRD";
-        //        result = IsFormattedAmountValid && IsCurrencyStringValid && IsThreeDecimalFormatValid && IsZeroDecimalFormatValid;
-        //    }
-        //    finally
-        //    {
-        //        FormatSettings = SavedSettings;
-        //    }
-        //    return result;
-        //}
+        public static bool CheckCurrencyConversions()
+        {
+            bool result = false;
+            TFormatSettings SavedSettings = TFormatSettings.CreateRecord();
+            Currency Amount = 0.0M;
+            string FormattedAmount = string.Empty;
+            string CurrencyAsString = string.Empty;
+            string CurrencyWithThreeDecimals = string.Empty;
+            string CurrencyWithoutDecimals = string.Empty;
+            bool IsFormattedAmountValid = false;
+            bool IsCurrencyStringValid = false;
+            bool IsThreeDecimalFormatValid = false;
+            bool IsZeroDecimalFormatValid = false;
+            SavedSettings = FormatSettings;
+            try
+            {
+                FormatSettings.DecimalSeparator = ',';
+                FormatSettings.ThousandSeparator = '.';
+                FormatSettings.CurrencyString = "CRD";
+                FormatSettings.CurrencyFormat = 3;
+                FormatSettings.CurrencyDecimals = 2;
+                Amount = 7654.321M;
+                FormattedAmount = Format("%m", new TVarRec[] { Amount });
+                CurrencyAsString = CurrToStr(42.375M);
+                CurrencyWithThreeDecimals = CurrToStrF(Amount, TFloatFormat.ffCurrency, 3);
+                CurrencyWithoutDecimals = CurrToStrF(Amount, TFloatFormat.ffCurrency, 0);
+                IsFormattedAmountValid = FormattedAmount == "7.654,32 CRD";
+                IsCurrencyStringValid = CurrencyAsString == "42,375";
+                IsThreeDecimalFormatValid = CurrencyWithThreeDecimals == "7.654,321 CRD";
+                IsZeroDecimalFormatValid = CurrencyWithoutDecimals == "7.654 CRD";
+                result = IsFormattedAmountValid && IsCurrencyStringValid && IsThreeDecimalFormatValid && IsZeroDecimalFormatValid;
+            }
+            finally
+            {
+                FormatSettings = SavedSettings;
+            }
+            return result;
+        }
     } // class D7_currencyImplementation
 
 }  // namespace D7_currency

@@ -63,6 +63,14 @@ const
   faAnyFile    = $000001FF;
 
 type
+  { Public dynamic-array aliases used throughout the Delphi RTL. }
+  TBytes = array of Byte;
+  TCharArray = array of Char;
+
+  { Number of days in the twelve months of a year. }
+  TDayTable = array[1..12] of Word;
+  PDayTable = ^TDayTable;
+
   { Keep simple value types first so their translation can be verified
     independently from the special Exception handling. }
   TFloatFormat = (
@@ -407,8 +415,26 @@ type
   EMonitorLockException = class(EMonitor);
   ENoMonitorSupportException = class(EMonitor);
 
+const
+  {
+    Days per month for normal years (False) and leap years (True).
+    The second index follows the Delphi TDayTable range 1..12.
+  }
+  MonthDays: array[Boolean] of TDayTable = (
+    (31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31),
+    (31, 29, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31)
+  );
+
 var
   FormatSettings: TFormatSettings;
+
+  { Legacy global formatting variables retained for compatibility with
+    pre-TFormatSettings Delphi source and conditional-compilation branches. }
+  DecimalSeparator: Char;
+  ThousandSeparator: Char;
+  CurrencyString: string;
+  CurrencyFormat: Byte;
+
   SysLocale: TSysLocale;
   GrowCollectionFunc: TGrowCollectionFunc;
 
@@ -616,6 +642,19 @@ function CurrToStr(
   const FormatSettings: TFormatSettings
 ): string; overload;
 
+function CurrToStrF(
+  Value: Currency;
+  Format: TFloatFormat;
+  Digits: Integer
+): string; overload;
+
+function CurrToStrF(
+  Value: Currency;
+  Format: TFloatFormat;
+  Digits: Integer;
+  const AFormatSettings: TFormatSettings
+): string; overload;
+
 function StrToCurr(const S: string): Currency; overload;
 function StrToCurr(
   const S: string;
@@ -727,18 +766,6 @@ function TrySystemTimeToDateTime(
   const SystemTime: TSystemTime;
   out DateTime: TDateTime
 ): Boolean;
-
-function EncodeDateTime(
-  Year, Month, Day, Hour, Minute, Second, MilliSecond: Word
-): TDateTime;
-function TryEncodeDateTime(
-  Year, Month, Day, Hour, Minute, Second, MilliSecond: Word;
-  out Value: TDateTime
-): Boolean;
-procedure DecodeDateTime(
-  const AValue: TDateTime;
-  out AYear, AMonth, ADay, AHour, AMinute, ASecond, AMilliSecond: Word
-);
 
 function Date: TDateTime;
 function Time: TDateTime;
@@ -1203,6 +1230,18 @@ function WideSameText(const S1, S2: string): Boolean;
 procedure AppendStr(var Dest: string; const S: string);
 
 { Date and time conversion }
+
+procedure DateTimeToString(
+  var Result: string;
+  const Format: string;
+  DateTime: TDateTime
+); overload;
+procedure DateTimeToString(
+  var Result: string;
+  const Format: string;
+  DateTime: TDateTime;
+  const AFormatSettings: TFormatSettings
+); overload;
 
 function DateToStr(const DateTime: TDateTime): string; overload;
 function DateToStr(
@@ -2316,26 +2355,6 @@ function TrySystemTimeToDateTime(
 begin
 end;
 
-function EncodeDateTime(
-  Year, Month, Day, Hour, Minute, Second, MilliSecond: Word
-): TDateTime;
-begin
-end;
-
-function TryEncodeDateTime(
-  Year, Month, Day, Hour, Minute, Second, MilliSecond: Word;
-  out Value: TDateTime
-): Boolean;
-begin
-end;
-
-procedure DecodeDateTime(
-  const AValue: TDateTime;
-  out AYear, AMonth, ADay, AHour, AMinute, ASecond, AMilliSecond: Word
-);
-begin
-end;
-
 function Date: TDateTime;
 begin
 end;
@@ -3263,6 +3282,23 @@ begin
 end;
 
 procedure AppendStr(var Dest: string; const S: string);
+begin
+end;
+
+procedure DateTimeToString(
+  var Result: string;
+  const Format: string;
+  DateTime: TDateTime
+);
+begin
+end;
+
+procedure DateTimeToString(
+  var Result: string;
+  const Format: string;
+  DateTime: TDateTime;
+  const AFormatSettings: TFormatSettings
+);
 begin
 end;
 

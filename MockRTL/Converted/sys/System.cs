@@ -392,6 +392,8 @@ public class SystemInterface
   Part of the D2CSharp project by t2t-soft. See LICENSE and NOTICE.
 */
   /* Basic placeholder types needed by the D2CSharp parser. */
+
+  /* Fixed-width signed integer used by System.Types and other RTL units. */
 	public enum TTypeKind {tkUnknown,
                 tkInteger,
                 tkChar,
@@ -528,7 +530,13 @@ public class SystemInterface
 		bool result = false;
 		return result;
 	}
-	public static double Pi()
+	public const double Pi = 3.1415926535897932385D;
+	public static double Sin(double X)
+	{
+		double result = 0.0D;
+		return result;
+	}
+	public static double Sqrt(double X)
 	{
 		double result = 0.0D;
 		return result;
@@ -592,7 +600,12 @@ public class SystemInterface
 /* Ordinal and type intrinsics */
 
 //function Ord(X): Integer;
-//function Chr(X: Byte): Char;
+	public static char Chr(int X)
+	{
+		char result = '\0';
+		result = '\x00';
+		return result;
+	}
 //function Succ(X): Integer;
 //function Pred(X): Integer;
 	public static byte Hi(int X)

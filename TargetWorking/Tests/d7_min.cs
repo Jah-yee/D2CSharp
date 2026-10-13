@@ -1,8 +1,8 @@
-//using System.Dmath;
+using System.Dmath;
 using System;
 using static D7_min.D7_minImplementation;
 using static D7_min.D7_minInterface;
-//using static System.Dmath.DmathInterface;
+using static System.Dmath.DmathInterface;
 using static System.SystemInterface;
 
 
@@ -38,20 +38,20 @@ namespace D7_min
 
     public class D7_minInterface
     {
-        //public static bool RunMinChecks()
-        //{
-        //    bool result = false;
-        //    bool CheckResult1 = false;
-        //    bool CheckResult2 = false;
-        //    bool CheckResult3 = false;
-        //    CheckResult1 = (Min(17, 42) == 17);
-        //    result = CheckResult1;
-        //    CheckResult2 = (Min(-3, -9) == -9);
-        //    result = result && CheckResult2;
-        //    CheckResult3 = (Abs(Min(2.75D, 8.5D) - 2.75D) < 1E-10D);
-        //    result = result && CheckResult3;
-        //    return result;
-        //}
+        public static bool RunMinChecks()
+        {
+            bool result = false;
+            bool CheckResult1 = false;
+            bool CheckResult2 = false;
+            bool CheckResult3 = false;
+            CheckResult1 = (Min(17, 42) == 17);
+            result = CheckResult1;
+            CheckResult2 = (Min(-3, -9) == -9);
+            result = result && CheckResult2;
+            CheckResult3 = (Abs(Min(2.75D, 8.5D) - 2.75D) < 1E-10D);
+            result = result && CheckResult3;
+            return result;
+        }
 
     } // class D7_minInterface
 

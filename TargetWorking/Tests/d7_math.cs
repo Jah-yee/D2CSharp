@@ -1,8 +1,8 @@
-//using System.Dmath;
+using System.Dmath;
 using System;
 using static D7_math.D7_mathImplementation;
 using static D7_math.D7_mathInterface;
-//using static System.Dmath.DmathInterface;
+using static System.Dmath.DmathInterface;
 using static System.SystemInterface;
 
 
@@ -38,41 +38,41 @@ namespace D7_math
 
     public class D7_mathInterface
     {
-        //public static bool RunMathChecks()
-        //{
-        //    bool result = false;
-        //    double RootValue = 0.0D;
-        //    double PowerValue = 0.0D;
-        //    double SineValue = 0.0D;
-        //    bool CheckResult1 = false;
-        //    bool CheckResult2 = false;
-        //    bool CheckResult3 = false;
-        //    bool CheckResult4 = false;
-        //    bool CheckResult5 = false;
-        //    bool CheckResult6 = false;
-        //    bool CheckResult7 = false;
-        //    bool CheckResult8 = false;
-        //    RootValue = Sqrt(144.0D);
-        //    PowerValue = Power(3.0D, 4.0D);
-        //    SineValue = Sin((double)Pi / 2);
-        //    CheckResult1 = (Abs(RootValue - 12.0D) < Tolerance);
-        //    result = CheckResult1;
-        //    CheckResult2 = (Abs(PowerValue - 81.0D) < Tolerance);
-        //    result = result && CheckResult2;
-        //    CheckResult3 = (Abs(SineValue - 1.0D) < Tolerance);
-        //    result = result && CheckResult3;
-        //    CheckResult4 = (Sqr(9) == 81);
-        //    result = result && CheckResult4;
-        //    CheckResult5 = IsInfinite(Infinity);
-        //    result = result && CheckResult5;
-        //    CheckResult6 = IsNan(NaN);
-        //    result = result && CheckResult6;
-        //    CheckResult7 = CheckOrdinalOperations();
-        //    result = result && CheckResult7;
-        //    CheckResult8 = CheckArrayMath();
-        //    result = result && CheckResult8;
-        //    return result;
-        //}
+        public static bool RunMathChecks()
+        {
+            bool result = false;
+            double RootValue = 0.0D;
+            double PowerValue = 0.0D;
+            double SineValue = 0.0D;
+            bool CheckResult1 = false;
+            bool CheckResult2 = false;
+            bool CheckResult3 = false;
+            bool CheckResult4 = false;
+            bool CheckResult5 = false;
+            bool CheckResult6 = false;
+            bool CheckResult7 = false;
+            bool CheckResult8 = false;
+            RootValue = Sqrt(144.0D);
+            PowerValue = Power(3.0D, 4.0D);
+            SineValue = Sin(Pi / 2.0F);
+            CheckResult1 = (Abs(RootValue - 12.0D) < Tolerance);
+            result = CheckResult1;
+            CheckResult2 = (Abs(PowerValue - 81.0D) < Tolerance);
+            result = result && CheckResult2;
+            CheckResult3 = (Abs(SineValue - 1.0D) < Tolerance);
+            result = result && CheckResult3;
+            CheckResult4 = (Sqr(9) == 81);
+            result = result && CheckResult4;
+            CheckResult5 = IsInfinite(Infinity);
+            result = result && CheckResult5;
+            CheckResult6 = IsNan(NaN);
+            result = result && CheckResult6;
+            CheckResult7 = CheckOrdinalOperations();
+            result = result && CheckResult7;
+            CheckResult8 = CheckArrayMath();
+            result = result && CheckResult8;
+            return result;
+        }
 
     } // class D7_mathInterface
 
@@ -89,33 +89,33 @@ namespace D7_math
             cpWest
         };
 
-        //public static bool CheckOrdinalOperations()
-        //{
-        //    bool result = false;
-        //    int Number = 0;
-        //    char Letter = '\0';
-        //    TCompassPoint Direction = TCompassPoint.cpNorth;
-        //    Number = 40;
-        //    Number += 3;
-        //    --Number;
-        //    Letter = 'K';
-        //    ++Letter;
-        //    Direction = TCompassPoint.cpEast;
-        //    result = (Number == 42) && (Letter == 'L') && (Pred(Direction) == TCompassPoint.cpNorth) && (Succ(Direction) == TCompassPoint.cpSouth);
-        //    return result;
-        //}
+        public static bool CheckOrdinalOperations()
+        {
+            bool result = false;
+            int Number = 0;
+            char Letter = '\0';
+            TCompassPoint Direction = TCompassPoint.cpNorth;
+            Number = 40;
+            Number += 3;
+            --Number;
+            Letter = 'K';
+            ++Letter;
+            Direction = TCompassPoint.cpEast;
+            result = (Number == 42) && (Letter == 'L') && (Pred(Direction) == TCompassPoint.cpNorth) && (Succ(Direction) == TCompassPoint.cpSouth);
+            return result;
+        }
 
-        //public static bool CheckArrayMath()
-        //{
-        //    bool result = false;
-        //    double[] Values = new double[4/*# range 0..3*/];
-        //    Values[0] = 1.25D;
-        //    Values[1] = 2.5D;
-        //    Values[2] = -0.75D;
-        //    Values[3] = 7.0D;
-        //    result = Abs(Sum(Values) - 10.0D) < Tolerance;
-        //    return result;
-        //}
+        public static bool CheckArrayMath()
+        {
+            bool result = false;
+            double[] Values = new double[4/*# range 0..3*/];
+            Values[0] = 1.25D;
+            Values[1] = 2.5D;
+            Values[2] = -0.75D;
+            Values[3] = 7.0D;
+            result = Abs(Sum(Values) - 10.0D) < Tolerance;
+            return result;
+        }
     } // class D7_mathImplementation
 
 }  // namespace D7_math

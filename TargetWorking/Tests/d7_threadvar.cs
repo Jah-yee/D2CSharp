@@ -1,8 +1,8 @@
-//using System.Classes;
+using System.Classes;
 using System;
 using static D7_threadvar.D7_threadvarImplementation;
 using static D7_threadvar.D7_threadvarInterface;
-//using static System.Classes.ClassesInterface;
+using static System.Classes.ClassesInterface;
 using static System.SystemInterface;
 
 

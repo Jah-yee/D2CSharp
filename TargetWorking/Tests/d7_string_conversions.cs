@@ -70,8 +70,8 @@ namespace D7_string_conversions
             {
                 FormatSettings.DecimalSeparator = ',';
                 ParsedFloat = StrToFloat("125,75");
-                //CheckResult8 = (Abs(ParsedFloat - 125.75D) < 1E-10D);
-                //result = result && CheckResult8;
+                CheckResult8 = (Abs(ParsedFloat - 125.75D) < 1E-10D);
+                result = result && CheckResult8;
             }
             finally
             {

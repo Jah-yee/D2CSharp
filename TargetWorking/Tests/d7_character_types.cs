@@ -48,14 +48,14 @@ namespace D7_character_types
             bool CheckResult5 = false;
             CheckResult1 = CheckCharacterAssignments();
             result = CheckResult1;
-            //CheckResult2 = CheckControlCharacters();
-            //result = result && CheckResult2;
+            CheckResult2 = CheckControlCharacters();
+            result = result && CheckResult2;
             CheckResult3 = CheckOrdinalValues();
             result = result && CheckResult3;
-            //CheckResult4 = CheckValConversion();
-            //result = result && CheckResult4;
-            //CheckResult5 = CheckUnicodeCharacters();
-            //result = result && CheckResult5;
+            CheckResult4 = CheckValConversion();
+            result = result && CheckResult4;
+            CheckResult5 = CheckUnicodeCharacters();
+            result = result && CheckResult5;
             return result;
         }
 
@@ -76,24 +76,24 @@ namespace D7_character_types
             UnicodeValue = '\x54';
             result = result && (UnicodeValue == 'T');
             UnicodeValue = '\v';
-            //result = result && (UnicodeValue == Chr(11));
-            //UnicodeValue = ((char)90);
+            result = result && (UnicodeValue == Chr(11));
+            UnicodeValue = ((char)90);
             result = result && (UnicodeValue == 'Z');
             AnsiValue = (byte)'b';
             result = result && (AnsiValue == ((byte)98));
             return result;
         }
 
-        //public static bool CheckControlCharacters()
-        //{
-        //    bool result = false;
-        //    string TextValue = string.Empty;
-        //    TextValue = "left" + Chr(9) + "right";
-        //    result = TextValue == "left" + "\t" + "right";
-        //    TextValue = "first" + Chr(13) + Chr(10) + "second";
-        //    result = result && (TextValue == "first" + "\r\n" + "second");
-        //    return result;
-        //}
+        public static bool CheckControlCharacters()
+        {
+            bool result = false;
+            string TextValue = string.Empty;
+            TextValue = "left" + Chr(9) + "right";
+            result = TextValue == "left" + "\t" + "right";
+            TextValue = "first" + Chr(13) + Chr(10) + "second";
+            result = result && (TextValue == "first" + "\r\n" + "second");
+            return result;
+        }
 
         public static bool CheckOrdinalValues()
         {
@@ -108,31 +108,31 @@ namespace D7_character_types
             return result;
         }
 
-        //public static bool CheckValConversion()
-        //{
-        //    bool result = false;
-        //    string SourceText = string.Empty;
-        //    double ParsedValue = 0.0D;
-        //    int ErrorPosition = 0;
-        //    SourceText = "2718.125";
-        //    Val(SourceText, ref ParsedValue, ref ErrorPosition);
-        //    result = (ErrorPosition == 0) && (Abs(ParsedValue - 2718.125D) < 0.000001D);
-        //    SourceText = "71x9";
-        //    Val(SourceText, ref ParsedValue, ref ErrorPosition);
-        //    result = result && (ErrorPosition == 3);
-        //    return result;
-        //}
+        public static bool CheckValConversion()
+        {
+            bool result = false;
+            string SourceText = string.Empty;
+            double ParsedValue = 0.0D;
+            int ErrorPosition = 0;
+            SourceText = "2718.125";
+            Val(SourceText, ref ParsedValue, ref ErrorPosition);
+            result = (ErrorPosition == 0) && (Abs(ParsedValue - 2718.125D) < 0.000001D);
+            SourceText = "71x9";
+            Val(SourceText, ref ParsedValue, ref ErrorPosition);
+            result = result && (ErrorPosition == 3);
+            return result;
+        }
 
-        //public static bool CheckUnicodeCharacters()
-        //{
-        //    bool result = false;
-        //    char LineSeparator = '\0';
-        //    char GreekOmega = '\0';
-        //    LineSeparator = Chr(0x2028);
-        //    GreekOmega = ((char)0x03A9);
-        //    result = (LineSeparator == '\x2028') && ((int)(LineSeparator) == 0x2028) && (GreekOmega == '\x3a9') && ((int)(GreekOmega) == 0x03A9);
-        //    return result;
-        //}
+        public static bool CheckUnicodeCharacters()
+        {
+            bool result = false;
+            char LineSeparator = '\0';
+            char GreekOmega = '\0';
+            LineSeparator = Chr(0x2028);
+            GreekOmega = ((char)0x03A9);
+            result = (LineSeparator == '\x2028') && ((int)(LineSeparator) == 0x2028) && (GreekOmega == '\x3a9') && ((int)(GreekOmega) == 0x03A9);
+            return result;
+        }
     } // class D7_character_typesImplementation
 
 }  // namespace D7_character_types

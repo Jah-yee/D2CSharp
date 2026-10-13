@@ -39,6 +39,9 @@ type
   LongInt = Integer;
   LongWord = Cardinal;
 
+  { Fixed-width signed integer used by System.Types and other RTL units. }
+  FixedInt = Integer;
+
   Int8 = ShortInt;
   UInt8 = Byte;
   Int16 = SmallInt;
@@ -345,7 +348,11 @@ function Trunc(X: Extended): Int64; overload;
 function Odd(X: Integer): Boolean; overload;
 function Odd(X: Int64): Boolean; overload;
 
-function Pi: Extended;
+const
+  Pi = 3.1415926535897932385;
+
+function Sin(X: Extended): Extended;
+function Sqrt(X: Extended): Extended;
 
 function BuiltInSin(X: Extended): Extended;
 function BuiltInCos(X: Extended): Extended;
@@ -363,7 +370,7 @@ function MulDivInt64(AValue, AMul, ADiv: Int64): Int64;
 { Ordinal and type intrinsics }
 
 //function Ord(X): Integer;
-//function Chr(X: Byte): Char;
+function Chr(X: Integer): Char;
 //function Succ(X): Integer;
 //function Pred(X): Integer;
 
@@ -951,7 +958,11 @@ function Odd(X: Int64): Boolean;
 begin
 end;
 
-function Pi: Extended;
+function Sin(X: Extended): Extended;
+begin
+end;
+
+function Sqrt(X: Extended): Extended;
 begin
 end;
 
@@ -1018,6 +1029,12 @@ function Pred(X): Integer;
 begin
 end;
 }
+
+function Chr(X: Integer): Char;
+begin
+  Result := #0;
+end;
+
 
 function Hi(X: Integer): Byte;
 begin

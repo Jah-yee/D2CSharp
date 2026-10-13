@@ -68,8 +68,8 @@ namespace D7_string_processor
                 Replacements = Scanner.ReplaceAll("red", "gold");
                 CheckResult5 = (Replacements == 2);
                 result = result && CheckResult5;
-                //CheckResult6 = (Scanner.Text == "gold green\x09" + "blue gold\x0d\x0a" + "orange");
-                //result = result && CheckResult6;
+                CheckResult6 = (Scanner.Text == "gold green\x09" + "blue gold\x0d\x0a" + "orange");
+                result = result && CheckResult6;
                 Scanner.Text = "one  two three";
                 CheckResult7 = (Scanner.TokenCount == 3);
                 result = result && CheckResult7;
@@ -203,10 +203,6 @@ namespace D7_string_processor
                 {
                     return GetTokenCount();
                 }
-            }
-
-            public TTextScanner()
-            {
             }
         }
     } // class D7_string_processorImplementation

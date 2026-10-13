@@ -16,6 +16,9 @@
 */
 
 using System.Formats.Asn1;
+using System.Collections.Generic;
+using System.Reflection;
+using System.Runtime.CompilerServices;
 using static Winapi.Windows.WindowsInterface;
 using static System.SystemInterface;
 
@@ -72,13 +75,30 @@ namespace System
     {
         protected bool FDisposed;
 
+        protected void CheckDisposed()
+        {
+            if (FDisposed)
+                throw new ObjectDisposedException(ClassName());
+        }
+
+        protected bool GetDisposed()
+        {
+            return FDisposed;
+        }
+
+        public bool Disposed
+        {
+            get { return GetDisposed(); }
+        }
+
         public virtual void Destroy()
         {
-            if (!FDisposed)
-            {
-                FDisposed = true;
-                GC.SuppressFinalize(this);
-            }
+            if (FDisposed)
+                return;
+
+            BeforeDestruction();
+            FDisposed = true;
+            GC.SuppressFinalize(this);
         }
 
         public void Free()
@@ -89,9 +109,44 @@ namespace System
         public static void Free(TObject obj)
         {
             if (obj != null)
-            {
                 obj.Destroy();
+        }
+
+        [Obsolete("DisposeOf is retained for Delphi compatibility.")]
+        public void DisposeOf()
+        {
+            Destroy();
+        }
+
+        public static TObject NewInstance()
+        {
+            return new TObject();
+        }
+
+        public virtual void FreeInstance()
+        {
+            if (!FDisposed)
+            {
+                FDisposed = true;
+                GC.SuppressFinalize(this);
             }
+        }
+
+        public static TObject InitInstance(Pointer instance)
+        {
+            return null;
+        }
+
+        public void CleanupInstance()
+        {
+        }
+
+        public virtual void AfterConstruction()
+        {
+        }
+
+        public virtual void BeforeDestruction()
+        {
         }
 
         public TClass ClassType()
@@ -104,9 +159,21 @@ namespace System
             return ClassType().ClassName();
         }
 
-        public bool ClassNameIs(string name)
+        public string QualifiedClassName()
         {
-            return ClassType().ClassNameIs(name);
+            return GetType().FullName ?? GetType().Name;
+        }
+
+        public string UnitName()
+        {
+            return GetType().Namespace ?? string.Empty;
+        }
+
+        public string UnitScope()
+        {
+            string ns = GetType().Namespace ?? string.Empty;
+            int separator = ns.IndexOf('.');
+            return separator < 0 ? ns : ns.Substring(0, separator);
         }
 
         public TClass ClassParent()
@@ -114,55 +181,64 @@ namespace System
             return ClassType().ClassParent();
         }
 
+        public Pointer ClassInfo()
+        {
+            return default;
+        }
+
+        public int InstanceSize()
+        {
+            return 0;
+        }
+
         public bool InheritsFrom(TClass aClass)
         {
             return ClassType().InheritsFrom(aClass);
         }
 
-        // dme from old code
-        public string InterfaceName()  
+        public bool ClassNameIs(string name)
         {
-            return this.ToString();
+            return ClassType().ClassNameIs(name);
         }
 
-        //    public virtual bool GetInterface<TInterface>(out TInterface obj)
-        //where TInterface : class
-        //    {
-        //        obj = this as TInterface;
-        //        return obj != null;
-        //    }
+        public Pointer FieldAddress(string name)
+        {
+            return default;
+        }
 
-        //    public virtual bool GetInterface(global::System.Type interfaceType, out object obj)
-        //    {
-        //        obj = null;
+        public Pointer MethodAddress(string name)
+        {
+            return default;
+        }
 
-        //        if (interfaceType == null || !interfaceType.IsInterface)
-        //        {
-        //            return false;
-        //        }
+        public string MethodName(Pointer address)
+        {
+            return string.Empty;
+        }
 
-        //        if (interfaceType.IsInstanceOfType(this))
-        //        {
-        //            obj = this;
-        //            return true;
-        //        }
+        public virtual void Dispatch(UntypedPointer message)
+        {
+            DefaultHandler(message);
+        }
 
-        //        return false;
-        //    }
+        public virtual void DefaultHandler(UntypedPointer message)
+        {
+        }
 
-        //    public virtual bool GetInterface(global::System.Guid iid, out object obj)
-        //    {
-        //        obj = null;
+        public static Pointer<SystemInterface.TInterfaceEntry> GetInterfaceEntry(Guid iid)
+        {
+            return default;
+        }
 
-        //        global::System.Type interfaceType = TInterfaceRegistry.GetInterfaceType(iid);
+        public static Pointer<SystemInterface.TInterfaceTable> GetInterfaceTable()
+        {
+            return default;
+        }
 
-        //        if (interfaceType == null)
-        //        {
-        //            return false;
-        //        }
-
-        //        return GetInterface(interfaceType, out obj);
-        //    }
+        public string InterfaceName()
+        {
+            return ToString();
+        }
 
         protected virtual IEnumerable<DelphiInterfaceEntry> GetDelphiInterfaces()
         {
@@ -184,6 +260,19 @@ namespace System
             return false;
         }
 
+        public virtual bool GetInterface(Guid iid, UntypedPointer obj)
+        {
+            if (obj.IsNull())
+                return false;
+
+            object interfaceObject;
+            if (!GetInterface(iid, out interfaceObject))
+                return false;
+
+            obj.Write<object>(interfaceObject);
+            return true;
+        }
+
         public virtual int QueryInterface(Guid iid, out object obj)
         {
             if (GetInterface(iid, out obj))
@@ -192,6 +281,30 @@ namespace System
             return E_NOINTERFACE;
         }
 
+        public virtual int SafeCallException(TObject exceptObject, Pointer exceptAddr)
+        {
+            return E_UNEXPECTED;
+        }
+
+        public virtual bool Equals(TObject obj)
+        {
+            return ReferenceEquals(this, obj);
+        }
+
+        public override bool Equals(object obj)
+        {
+            return obj is TObject other && Equals(other);
+        }
+
+        public override int GetHashCode()
+        {
+            return RuntimeHelpers.GetHashCode(this);
+        }
+
+        public override string ToString()
+        {
+            return ClassName();
+        }
     }
 
     //public static class TInterfaceRegistry

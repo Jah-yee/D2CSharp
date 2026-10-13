@@ -39,17 +39,17 @@ namespace D7_text_append
 
     public class D7_text_appendInterface
     {
-        //public static bool RunAppendChecks()
-        //{
-        //    bool result = false;
-        //    bool CheckResult1 = false;
-        //    bool CheckResult2 = false;
-        //    CheckResult1 = CheckTextFileAppend();
-        //    result = CheckResult1;
-        //    CheckResult2 = CheckStringBuilderAppend();
-        //    result = result && CheckResult2;
-        //    return result;
-        //}
+        public static bool RunAppendChecks()
+        {
+            bool result = false;
+            bool CheckResult1 = false;
+            bool CheckResult2 = false;
+            CheckResult1 = CheckTextFileAppend();
+            result = CheckResult1;
+            CheckResult2 = CheckStringBuilderAppend();
+            result = result && CheckResult2;
+            return result;
+        }
 
     } // class D7_text_appendInterface
 
@@ -58,74 +58,74 @@ namespace D7_text_append
     {
 
 
-        //public static bool CheckTextFileAppend()
-        //{
-        //    bool result = false;
-        //    TextFile DataFile = TextFile.CreateRecord();
-        //    string FileName = string.Empty;
-        //    string FirstLine = string.Empty;
-        //    string SecondLine = string.Empty;
-        //    FileName = IncludeTrailingPathDelimiter(GetCurrentDir()) + "d7_append_probe.txt";
-        //    try
-        //    {
-        //        AssignFile(DataFile, FileName);
-        //        Rewrite(DataFile);
-        //        try
-        //        {
-        //            WriteLn(DataFile, "sequence=41");
-        //        }
-        //        finally
-        //        {
-        //            CloseFile(DataFile);
-        //        }
-        //        AssignFile(DataFile, FileName);
-        //        Append(DataFile);
-        //        try
-        //        {
-        //            WriteLn(DataFile, "state=complete");
-        //        }
-        //        finally
-        //        {
-        //            CloseFile(DataFile);
-        //        }
-        //        AssignFile(DataFile, FileName);
-        //        Reset(DataFile);
-        //        try
-        //        {
-        //            ReadLn(DataFile, ref FirstLine);
-        //            ReadLn(DataFile, ref SecondLine);
-        //            result = (FirstLine == "sequence=41") && (SecondLine == "state=complete") && Eof(DataFile);
-        //        }
-        //        finally
-        //        {
-        //            CloseFile(DataFile);
-        //        }
-        //    }
-        //    finally
-        //    {
-        //        if (FileExists(FileName))
-        //            DeleteFile(FileName);
-        //    }
-        //    return result;
-        //}
+        public static bool CheckTextFileAppend()
+        {
+            bool result = false;
+            TextFile DataFile = TextFile.CreateRecord();
+            string FileName = string.Empty;
+            string FirstLine = string.Empty;
+            string SecondLine = string.Empty;
+            FileName = IncludeTrailingPathDelimiter(GetCurrentDir()) + "d7_append_probe.txt";
+            try
+            {
+                AssignFile(DataFile, FileName);
+                Rewrite(DataFile);
+                try
+                {
+                    WriteLn(DataFile, "sequence=41");
+                }
+                finally
+                {
+                    CloseFile(DataFile);
+                }
+                AssignFile(DataFile, FileName);
+                Append(DataFile);
+                try
+                {
+                    WriteLn(DataFile, "state=complete");
+                }
+                finally
+                {
+                    CloseFile(DataFile);
+                }
+                AssignFile(DataFile, FileName);
+                Reset(DataFile);
+                try
+                {
+                    ReadLn(DataFile, ref FirstLine);
+                    ReadLn(DataFile, ref SecondLine);
+                    result = (FirstLine == "sequence=41") && (SecondLine == "state=complete") && Eof(DataFile);
+                }
+                finally
+                {
+                    CloseFile(DataFile);
+                }
+            }
+            finally
+            {
+                if (FileExists(FileName))
+                    DeleteFile(FileName);
+            }
+            return result;
+        }
 
-        //public static bool CheckStringBuilderAppend()
-        //{
-        //    bool result = false;
-        //    StringBuilder Builder = default;
-        //    Builder = new StringBuilder();
-        //    try
-        //    {
-        //        Builder.AppendLine("phase");
-        //        Builder.Append('#').Append(3);
-        //        result = Builder.ToString() == "phase" + sLineBreak + "#3";
-        //    }
-        //    finally
-        //    {
-        //        // Builder.Free;;
-        //    }
-        //    return result;
-        //}
+        public static bool CheckStringBuilderAppend()
+        {
+            bool result = false;
+            System.Sysutils.SysutilsInterface.StringBuilder Builder = default;
+            Builder = new System.Sysutils.SysutilsInterface.StringBuilder();
+            try
+            {
+                Builder.AppendLine("phase");
+                Builder.Append('#').Append(3);
+                result = Builder.ToString() == "phase" + SLineBreak + "#3";
+            }
+            finally
+            {
+                // Builder.Free;;
+            }
+            return result;
+        }
     } // class D7_text_appendImplementation
 
 }  // namespace D7_text_append

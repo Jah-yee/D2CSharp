@@ -43,7 +43,11 @@ namespace System
         public static readonly TextFile ErrOutput =
             TextFile.CreateOutput(global::System.Console.Error);
 
-        /* Delphi System.FileMode. */
+        /*
+        * Delphi System.FileMode. Do not confuse this variable with
+        * global::System.IO.FileMode; use the fully qualified .NET type name
+        * whenever both are visible in the same source file.
+        */
         public static byte FileMode = 2;
 
         public static void Assign(UntypedPointer F, string FileName)

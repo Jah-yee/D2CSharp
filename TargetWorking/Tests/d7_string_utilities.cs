@@ -1,8 +1,8 @@
-//using System.Strutils;
+using System.Strutils;
 using System;
 using static D7_string_utilities.D7_string_utilitiesImplementation;
 using static D7_string_utilities.D7_string_utilitiesInterface;
-//using static System.Strutils.StrutilsInterface;
+using static System.Strutils.StrutilsInterface;
 using static System.SystemInterface;
 
 
@@ -38,42 +38,42 @@ namespace D7_string_utilities
 
     public class D7_string_utilitiesInterface
     {
-        //public static bool RunStringUtilityChecks()
-        //{
-        //    bool result = false;
-        //    AnsiString Source = AnsiString.Empty;
-        //    AnsiString Updated = AnsiString.Empty;
-        //    bool CheckResult1 = false;
-        //    bool CheckResult2 = false;
-        //    bool CheckResult3 = false;
-        //    bool CheckResult4 = false;
-        //    bool CheckResult5 = false;
-        //    bool CheckResult6 = false;
-        //    bool CheckResult7 = false;
-        //    bool CheckResult8 = false;
-        //    bool CheckResult9 = false;
-        //    Source = "alpha|beta|gamma";
-        //    Updated = AnsiReplaceStr(Source.Decode(), "beta", "delta");
-        //    CheckResult1 = (LeftStr(Source, 5) == "alpha");
-        //    result = CheckResult1;
-        //    CheckResult2 = (AnsiMidStr(Source.Decode(), 7, 4) == "beta");
-        //    result = result && CheckResult2;
-        //    CheckResult3 = (AnsiRightStr(Source.Decode(), 5) == "gamma");
-        //    result = result && CheckResult3;
-        //    CheckResult4 = AnsiStartsStr("alpha|", Source.Decode());
-        //    result = result && CheckResult4;
-        //    CheckResult5 = !AnsiStartsStr("ALPHA|", Source.Decode());
-        //    result = result && CheckResult5;
-        //    CheckResult6 = (Updated == "alpha|delta|gamma");
-        //    result = result && CheckResult6;
-        //    CheckResult7 = (AnsiReverseString("stressed") == "desserts");
-        //    result = result && CheckResult7;
-        //    CheckResult8 = (AnsiIndexStr("package", new string[] { "prepare", "compile", "package", "deploy" }) == 2);
-        //    result = result && CheckResult8;
-        //    CheckResult9 = (AnsiIndexStr("PACKAGE", new string[] { "prepare", "compile", "package", "deploy" }) == -1);
-        //    result = result && CheckResult9;
-        //    return result;
-        //}
+        public static bool RunStringUtilityChecks()
+        {
+            bool result = false;
+            AnsiString Source = AnsiString.Empty;
+            AnsiString Updated = AnsiString.Empty;
+            bool CheckResult1 = false;
+            bool CheckResult2 = false;
+            bool CheckResult3 = false;
+            bool CheckResult4 = false;
+            bool CheckResult5 = false;
+            bool CheckResult6 = false;
+            bool CheckResult7 = false;
+            bool CheckResult8 = false;
+            bool CheckResult9 = false;
+            Source = "alpha|beta|gamma";
+            Updated = AnsiReplaceStr(Source.Decode(), "beta", "delta");
+            CheckResult1 = (LeftStr(Source.Decode(), 5) == "alpha");
+            result = CheckResult1;
+            CheckResult2 = (AnsiMidStr(Source.Decode(), 7, 4) == "beta");
+            result = result && CheckResult2;
+            CheckResult3 = (AnsiRightStr(Source.Decode(), 5) == "gamma");
+            result = result && CheckResult3;
+            CheckResult4 = AnsiStartsStr("alpha|", Source.Decode());
+            result = result && CheckResult4;
+            CheckResult5 = !AnsiStartsStr("ALPHA|", Source.Decode());
+            result = result && CheckResult5;
+            CheckResult6 = (Updated == "alpha|delta|gamma");
+            result = result && CheckResult6;
+            CheckResult7 = (AnsiReverseString("stressed") == "desserts");
+            result = result && CheckResult7;
+            CheckResult8 = (AnsiIndexStr("package", new string[] { "prepare", "compile", "package", "deploy" }) == 2);
+            result = result && CheckResult8;
+            CheckResult9 = (AnsiIndexStr("PACKAGE", new string[] { "prepare", "compile", "package", "deploy" }) == -1);
+            result = result && CheckResult9;
+            return result;
+        }
 
     } // class D7_string_utilitiesInterface
 

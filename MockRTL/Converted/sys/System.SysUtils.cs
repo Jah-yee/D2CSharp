@@ -41,6 +41,7 @@ namespace Sysutils
   Part of the D2CSharp project by t2t-soft. See LICENSE and NOTICE.
 */
 
+
 public class SysutilsInterface
 {
 
@@ -1369,6 +1370,40 @@ public class SysutilsInterface
 		public ENoMonitorSupportException(uint Ident, int AHelpContext) : base(Ident, AHelpContext) {}
 		public ENoMonitorSupportException(Pointer<TResStringRec> ResStringRec, int AHelpContext) : base(ResStringRec, AHelpContext) {}
 	}	
+  /*
+    Days per month for normal years (False) and leap years (True).
+    The second index follows the Delphi TDayTable range 1..12.
+  *//*
+  D2CSharp Runtime Library (RTL)
+
+  This Delphi source file provides a declaration-oriented mock of selected
+  System.SysUtils functionality required by D2CSharp.
+
+  The file serves two purposes:
+  - it provides symbols and routine signatures used while translating Delphi
+    source code;
+  - it provides the basis for generating the corresponding C# mock file.
+
+  The routines below intentionally contain no RTL implementation.  Functions
+  return simple default values and procedures have empty bodies.
+
+  Copyright (c) 2026 Dr. Detlef Meyer-Eltz, t2t-soft
+  SPDX-License-Identifier: Apache-2.0
+
+  Licensed under the Apache License, Version 2.0 (the "License");
+  you may not use this file except in compliance with the License.
+  You may obtain a copy of the License at
+
+      https://www.apache.org/licenses/LICENSE-2.0
+
+  Unless required by applicable law or agreed to in writing, software
+  distributed under the License is distributed on an "AS IS" BASIS,
+  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  See the License for the specific language governing permissions and
+  limitations under the License.
+
+  Part of the D2CSharp project by t2t-soft. See LICENSE and NOTICE.
+*/
   /* File open modes */
 	public const int fmOpenRead = 0x0000;
 	public const int fmOpenWrite = 0x0001;
@@ -1395,6 +1430,10 @@ public class SysutilsInterface
 	public const int faEncrypted = 0x00004000;
 	public const int faVirtual = 0x00010000;
 	public const int faAnyFile = 0x000001FF;
+  /* Public dynamic-array aliases used throughout the Delphi RTL. */
+
+  /* Number of days in the twelve months of a year. */
+
   /* Keep simple value types first so their translation can be verified
     independently from the special Exception handling. */
 	public enum TFloatFormat {ffGeneral,
@@ -1445,7 +1484,22 @@ public delegate int TGrowCollectionFunc(int OldCapacity, int NewCount);
 
 	//#pragma pack (pop)
 
+  /*
+    Days per month for normal years (False) and leap years (True).
+    The second index follows the Delphi TDayTable range 1..12.
+  */
+	public static readonly ushort[][] MonthDays = new ushort[2/*# boolean*/][]
+	{
+		new ushort[]{31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31}, new ushort[]{31, 29, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31}
+	};
 	public static TFormatSettings FormatSettings = TFormatSettings.CreateRecord();
+
+  /* Legacy global formatting variables retained for compatibility with
+    pre-TFormatSettings Delphi source and conditional-compilation branches. */
+	public static char DecimalSeparator = '\0';
+	public static char ThousandSeparator = '\0';
+	public static string CurrencyString = string.Empty;
+	public static byte CurrencyFormat = 0;
 	public static TSysLocale SysLocale = TSysLocale.CreateRecord();
 	public static TGrowCollectionFunc GrowCollectionFunc = default;
 
@@ -1778,6 +1832,8 @@ public delegate int TGrowCollectionFunc(int OldCapacity, int NewCount);
 		string result = string.Empty;
 		return result;
 	}
+	//# missing function body: public static string CurrToStrF(Currency Value, TFloatFormat Format, int Digits);
+	//# missing function body: public static string CurrToStrF(Currency Value, TFloatFormat Format, int Digits, TFormatSettings AFormatSettings);
 	public static Currency StrToCurr(string S)
 	{
 		Currency result = 0.0M;
@@ -1916,27 +1972,6 @@ public delegate int TGrowCollectionFunc(int OldCapacity, int NewCount);
 		DateTime = new TDateTime(); //# clear out parameter
 		bool result = false;
 		return result;
-	}
-	public static TDateTime EncodeDateTime(ushort Year, ushort Month, ushort Day, ushort Hour, ushort Minute, ushort Second, ushort MilliSecond)
-	{
-		TDateTime result = new TDateTime();
-		return result;
-	}
-	public static bool TryEncodeDateTime(ushort Year, ushort Month, ushort Day, ushort Hour, ushort Minute, ushort Second, ushort MilliSecond, out TDateTime Value)
-	{
-		Value = new TDateTime(); //# clear out parameter
-		bool result = false;
-		return result;
-	}
-	public static void DecodeDateTime(TDateTime AValue, out ushort AYear, out ushort AMonth, out ushort ADay, out ushort AHour, out ushort AMinute, out ushort ASecond, out ushort AMilliSecond)
-	{
-		AYear = 0; //# clear out parameter
-		AMonth = 0; //# clear out parameter
-		ADay = 0; //# clear out parameter
-		AHour = 0; //# clear out parameter
-		AMinute = 0; //# clear out parameter
-		ASecond = 0; //# clear out parameter
-		AMilliSecond = 0; //# clear out parameter
 	}
 	public static TDateTime Date()
 	{
@@ -2799,6 +2834,12 @@ public delegate int TGrowCollectionFunc(int OldCapacity, int NewCount);
 	}
 
 /* Date and time conversion */
+	public static void DateTimeToString(ref string Result, string Format, TDateTime DateTime)
+	{
+	}
+	public static void DateTimeToString(ref string Result, string Format, TDateTime DateTime, TFormatSettings AFormatSettings)
+	{
+	}
 	public static string DateToStr(TDateTime DateTime)
 	{
 		string result = string.Empty;

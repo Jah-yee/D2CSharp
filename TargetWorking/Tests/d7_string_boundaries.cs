@@ -1,9 +1,9 @@
-//using System.Strutils;
+using System.Strutils;
 using System.Sysutils;
 using System;
 using static D7_string_boundaries.D7_string_boundariesImplementation;
 using static D7_string_boundaries.D7_string_boundariesInterface;
-//using static System.Strutils.StrutilsInterface;
+using static System.Strutils.StrutilsInterface;
 using static System.SystemInterface;
 using static System.Sysutils.SysutilsInterface;
 
@@ -40,48 +40,48 @@ namespace D7_string_boundaries
 
     public class D7_string_boundariesInterface
     {
-        //public static bool RunStringBoundaryChecks()
-        //{
-        //    bool result = false;
-        //    string MessageText = string.Empty;
-        //    AnsiString AnsiMessage = AnsiString.Empty;
-        //    bool CheckResult1 = false;
-        //    bool CheckResult2 = false;
-        //    bool CheckResult3 = false;
-        //    bool CheckResult4 = false;
-        //    bool CheckResult5 = false;
-        //    bool CheckResult6 = false;
-        //    bool CheckResult7 = false;
-        //    bool CheckResult8 = false;
-        //    bool CheckResult9 = false;
-        //    bool CheckResult10 = false;
-        //    bool CheckResult11 = false;
-        //    MessageText = "Build READY: package stored";
-        //    AnsiMessage = "Build READY: package stored";
-        //    CheckResult1 = AnsiContainsStr(MessageText, "READY");
-        //    result = CheckResult1;
-        //    CheckResult2 = !AnsiContainsStr(MessageText, "ready");
-        //    result = result && CheckResult2;
-        //    CheckResult3 = AnsiContainsText(MessageText, "ready");
-        //    result = result && CheckResult3;
-        //    CheckResult4 = AnsiStartsText("build ready", MessageText);
-        //    result = result && CheckResult4;
-        //    CheckResult5 = AnsiEndsText("PACKAGE STORED", MessageText);
-        //    result = result && CheckResult5;
-        //    CheckResult6 = MessageText.Contains("package");
-        //    result = result && CheckResult6;
-        //    CheckResult7 = !MessageText.Contains("Package");
-        //    result = result && CheckResult7;
-        //    CheckResult8 = MessageText.StartsWith("Build");
-        //    result = result && CheckResult8;
-        //    CheckResult9 = MessageText.EndsWith("stored");
-        //    result = result && CheckResult9;
-        //    CheckResult10 = TStringHelper.EndsText("STORED", MessageText);
-        //    result = result && CheckResult10;
-        //    CheckResult11 = AnsiContainsText(AnsiMessage.Decode(), "build ready");
-        //    result = result && CheckResult11;
-        //    return result;
-        //}
+        public static bool RunStringBoundaryChecks()
+        {
+            bool result = false;
+            string MessageText = string.Empty;
+            AnsiString AnsiMessage = AnsiString.Empty;
+            bool CheckResult1 = false;
+            bool CheckResult2 = false;
+            bool CheckResult3 = false;
+            bool CheckResult4 = false;
+            bool CheckResult5 = false;
+            bool CheckResult6 = false;
+            bool CheckResult7 = false;
+            bool CheckResult8 = false;
+            bool CheckResult9 = false;
+            bool CheckResult10 = false;
+            bool CheckResult11 = false;
+            MessageText = "Build READY: package stored";
+            AnsiMessage = "Build READY: package stored";
+            CheckResult1 = AnsiContainsStr(MessageText, "READY");
+            result = CheckResult1;
+            CheckResult2 = !AnsiContainsStr(MessageText, "ready");
+            result = result && CheckResult2;
+            CheckResult3 = AnsiContainsText(MessageText, "ready");
+            result = result && CheckResult3;
+            CheckResult4 = AnsiStartsText("build ready", MessageText);
+            result = result && CheckResult4;
+            CheckResult5 = AnsiEndsText("PACKAGE STORED", MessageText);
+            result = result && CheckResult5;
+            CheckResult6 = MessageText.Contains("package");
+            result = result && CheckResult6;
+            CheckResult7 = !MessageText.Contains("Package");
+            result = result && CheckResult7;
+            CheckResult8 = MessageText.StartsWith("Build");
+            result = result && CheckResult8;
+            CheckResult9 = MessageText.EndsWith("stored");
+            result = result && CheckResult9;
+            //CheckResult10 = TStringHelper.EndsText("STORED", MessageText);
+            //result = result && CheckResult10;
+            CheckResult11 = AnsiContainsText(AnsiMessage.Decode(), "build ready");
+            result = result && CheckResult11;
+            return result;
+        }
 
     } // class D7_string_boundariesInterface
 

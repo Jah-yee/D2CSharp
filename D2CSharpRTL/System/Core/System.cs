@@ -350,77 +350,158 @@ namespace System
         }
 
 
-        //# output of equivalent "Sqr" function suppressed
-        //# missing function body: public static long Sqr(long X);
-        //# missing function body: public static float Sqr(float X);
-        //# missing function body: public static double Sqr(double X);
-        //# output of equivalent "Sqr" function suppressed
-        //# output of equivalent "Round" function suppressed
-        //# missing function body: public static long Round(double X);
-        //# output of equivalent "Round" function suppressed
-        //# output of equivalent "Trunc" function suppressed
-        //# missing function body: public static long Trunc(double X);
-        //# output of equivalent "Trunc" function suppressed
-    public static bool Odd(int X)
-	{
-		return false;
-	}
-	//# missing function body: public static bool Odd(long X);
-	public static double Pi()
-	{
-		return 0.0D;
-	}
-	public static double BuiltInSin(double X)
-	{
-		return 0.0D;
-	}
+        public static int Sqr(int X)
+        {
+            return X * X;
+        }
+
+        public static long Sqr(long X)
+        {
+            return X * X;
+        }
+
+        public static float Sqr(float X)
+        {
+            return X * X;
+        }
+
+        public static double Sqr(double X)
+        {
+            return X * X;
+        }
+
+        public static long Round(double X)
+        {
+            return checked((long)global::System.Math.Round(
+                X,
+                global::System.MidpointRounding.ToEven));
+        }
+
+        public static long Trunc(double X)
+        {
+            return checked((long)global::System.Math.Truncate(X));
+        }
+
+        public static bool Odd(int X)
+        {
+            return (X & 1) != 0;
+        }
+
+        public static bool Odd(long X)
+        {
+            return (X & 1L) != 0;
+        }
+
+        public const double Pi = 3.1415926535897932385D;
+        public static double Sin(double X)
+        {
+            return global::System.Math.Sin(X);
+        }
+
+        public static double Sqrt(double X)
+        {
+            return global::System.Math.Sqrt(X);
+        }
+
+public static double BuiltInSin(double X)
+        {
+            return global::System.Math.Sin(X);
+        }
 	public static double BuiltInCos(double X)
-	{
-		return 0.0D;
-	}
+        {
+            return global::System.Math.Cos(X);
+        }
 	public static double BuiltInTan(double X)
-	{
-		return 0.0D;
-	}
+        {
+            return global::System.Math.Tan(X);
+        }
 	public static double BuiltInArcTan(double X)
-	{
-		return 0.0D;
-	}
+        {
+            return global::System.Math.Atan(X);
+        }
 	public static double BuiltInArcTan2(double Y, double X)
-	{
-		return 0.0D;
-	}
+        {
+            return global::System.Math.Atan2(Y, X);
+        }
 	public static double BuiltInSqrt(double X)
-	{
-		return 0.0D;
-	}
+        {
+            return global::System.Math.Sqrt(X);
+        }
 	public static double BuiltInLn(double X)
-	{
-		return 0.0D;
-	}
+        {
+            return global::System.Math.Log(X);
+        }
 	public static double BuiltInLnXPlus1(double X)
-	{
-		return 0.0D;
-	}
+        {
+            return global::System.Math.Log(1.0D + X);
+        }
 	public static double BuiltInLog2(double X)
-	{
-		return 0.0D;
-	}
+        {
+            return global::System.Math.Log2(X);
+        }
 	public static double BuiltInLog10(double X)
-	{
-		return 0.0D;
-	}
+        {
+            return global::System.Math.Log10(X);
+        }
 	public static long MulDivInt64(long AValue, long AMul, long ADiv)
 	{
-		return 0;
+		if (ADiv == 0)
+			throw new global::System.DivideByZeroException();
+
+		decimal Result =
+			((decimal)AValue * (decimal)AMul) / (decimal)ADiv;
+
+		return checked((long)global::System.Math.Round(
+			Result,
+			0,
+			global::System.MidpointRounding.AwayFromZero));
 	}
 
 /* Ordinal and type intrinsics */
 
 //function Ord(X): Integer;
-//function Chr(X: Byte): Char;
+// Delphi Chr is exposed explicitly because translated code may retain
+        // the intrinsic call (for example Chr($2028)).
+        public static char Chr(int X)
+        {
+            if ((uint)X > char.MaxValue)
+                throw new global::System.ArgumentOutOfRangeException(nameof(X));
+            return (char)X;
+        }
 //function Succ(X): Integer;
 //function Pred(X): Integer;
+
+        public static int Succ(int value)
+        {
+            return checked(value + 1);
+        }
+
+        public static int Pred(int value)
+        {
+            return checked(value - 1);
+        }
+
+        public static char Succ(char value)
+        {
+            return checked((char)(value + 1));
+        }
+
+        public static char Pred(char value)
+        {
+            return checked((char)(value - 1));
+        }
+
+        public static T Succ<T>(T value) where T : struct, global::System.Enum
+        {
+            long ordinal = global::System.Convert.ToInt64(value);
+            return (T)global::System.Enum.ToObject(typeof(T), checked(ordinal + 1));
+        }
+
+        public static T Pred<T>(T value) where T : struct, global::System.Enum
+        {
+            long ordinal = global::System.Convert.ToInt64(value);
+            return (T)global::System.Enum.ToObject(typeof(T), checked(ordinal - 1));
+        }
 	public static byte Hi(int X)
 	{
 		return (byte)(((uint)X >> 8) & 0xFF);
@@ -439,9 +520,18 @@ namespace System
 	}
 	public static int Swap(ushort X)
 	{
-		return 0;
+		return (ushort)((X << 8) | (X >> 8));
 	}
-	//# missing function body: public static int Swap(int X);
+	public static int Swap(int X)
+	{
+		uint Value = unchecked((uint)X);
+		uint Result =
+			((Value & 0x000000FFU) << 24) |
+			((Value & 0x0000FF00U) << 8) |
+			((Value & 0x00FF0000U) >> 8) |
+			((Value & 0xFF000000U) >> 24);
+		return unchecked((int)Result);
+	}
 
 //function High(X): Integer;
 //function Low(X): Integer;
@@ -470,7 +560,10 @@ namespace System
 	{
 		return !P.IsNull();
 	}
-	//# missing function body: public static bool Assigned(UntypedPointer P);
+	public static bool Assigned(UntypedPointer P)
+	{
+		return !P.IsNull();
+	}
 	public static void FillChar(UntypedPointer X, int Count, byte Value)
 	{
 		if (Count <= 0)
@@ -620,7 +713,12 @@ namespace System
 		P = (Pointer<T>)RawPointer;
 		return P;
 	}
-	//# missing function body: public static Pointer GetMem(int Size);
+	public static Pointer GetMem(int Size)
+	{
+		if (Size < 0)
+			throw new global::System.ArgumentOutOfRangeException(nameof(Size));
+		return DelphiMemory.GetMem(Size);
+	}
 	public static int FreeMem(Pointer P)
 	{
 		if (!P.IsNull())
@@ -660,7 +758,12 @@ namespace System
 
 		return 0;
 	}
-	//# missing function body: public static int FreeMem(Pointer P, int Size);
+	public static int FreeMem(Pointer P, int Size)
+	{
+		if (!P.IsNull())
+			DelphiMemory.FreeMem(ref P);
+		return 0;
+	}
 	public static void ReallocMem(ref Pointer P, int Size)
 	{
 		if (Size < 0)
@@ -872,53 +975,156 @@ namespace System
 	}
 
 /* Atomic intrinsics */
-	public static long AtomicIncrement(ref int Target)
+	public static int AtomicIncrement(ref int Target)
 	{
-		return 0;
+		return global::System.Threading.Interlocked.Increment(ref Target);
 	}
-	//# missing function body: public static long AtomicIncrement(ref long Target);
-	//# missing function body: public static int AtomicIncrement(ref int Target, int Increment);
-	//# missing function body: public static long AtomicIncrement(ref long Target, long Increment);
-	public static long AtomicDecrement(ref int Target)
+
+	public static long AtomicIncrement(ref long Target)
 	{
-		return 0;
+		return global::System.Threading.Interlocked.Increment(ref Target);
 	}
-	//# missing function body: public static long AtomicDecrement(ref long Target);
-	//# missing function body: public static int AtomicDecrement(ref int Target, int Decrement);
-	//# missing function body: public static long AtomicDecrement(ref long Target, long Decrement);
-	public static Pointer AtomicExchange(ref int Target, int Value)
+
+	public static int AtomicIncrement(ref int Target, int Increment)
 	{
-		return default;
+		return global::System.Threading.Interlocked.Add(ref Target, Increment);
 	}
-	//# missing function body: public static long AtomicExchange(ref long Target, long Value);
-	//# missing function body: public static Pointer AtomicExchange(ref Pointer Target, Pointer Value);
-	public static Pointer AtomicCmpExchange(ref int Target, int NewValue, int Comparand)
+
+	public static long AtomicIncrement(ref long Target, long Increment)
 	{
-		return default;
+		return global::System.Threading.Interlocked.Add(ref Target, Increment);
 	}
-	//# missing function body: public static long AtomicCmpExchange(ref long Target, long NewValue, long Comparand);
-	//# missing function body: public static Pointer AtomicCmpExchange(ref Pointer Target, Pointer NewValue, Pointer Comparand);
+
+	public static int AtomicDecrement(ref int Target)
+	{
+		return global::System.Threading.Interlocked.Decrement(ref Target);
+	}
+
+	public static long AtomicDecrement(ref long Target)
+	{
+		return global::System.Threading.Interlocked.Decrement(ref Target);
+	}
+
+	public static int AtomicDecrement(ref int Target, int Decrement)
+	{
+		return global::System.Threading.Interlocked.Add(ref Target, -Decrement);
+	}
+
+	public static long AtomicDecrement(ref long Target, long Decrement)
+	{
+		return global::System.Threading.Interlocked.Add(ref Target, -Decrement);
+	}
+
+	public static int AtomicExchange(ref int Target, int Value)
+	{
+		return global::System.Threading.Interlocked.Exchange(ref Target, Value);
+	}
+
+	public static long AtomicExchange(ref long Target, long Value)
+	{
+		return global::System.Threading.Interlocked.Exchange(ref Target, Value);
+	}
+
+	private static readonly object FPointerAtomicLock = new object();
+
+	public static Pointer AtomicExchange(ref Pointer Target, Pointer Value)
+	{
+		lock (FPointerAtomicLock)
+		{
+			Pointer OldValue = Target;
+			Target = Value;
+			return OldValue;
+		}
+	}
+
+	public static int AtomicCmpExchange(ref int Target, int NewValue, int Comparand)
+	{
+		return global::System.Threading.Interlocked.CompareExchange(
+			ref Target, NewValue, Comparand);
+	}
+
+	public static long AtomicCmpExchange(ref long Target, long NewValue, long Comparand)
+	{
+		return global::System.Threading.Interlocked.CompareExchange(
+			ref Target, NewValue, Comparand);
+	}
+
+	public static Pointer AtomicCmpExchange(
+		ref Pointer Target,
+		Pointer NewValue,
+		Pointer Comparand)
+	{
+		lock (FPointerAtomicLock)
+		{
+			Pointer OldValue = Target;
+			if (Target.Equals(Comparand))
+				Target = NewValue;
+			return OldValue;
+		}
+	}
 
 /* String and dynamic-array intrinsics */
 	public static int Length(string S)
 	{
-		return 0;
+		return S == null ? 0 : S.Length;
 	}
 //function Length(A): Integer; overload;
 	public static string Copy(string S, int Index, int Count)
 	{
-		return string.Empty;
+		if (string.IsNullOrEmpty(S) || Count <= 0)
+			return string.Empty;
+
+		int StartIndex = global::System.Math.Max(Index, 1) - 1;
+		if (StartIndex >= S.Length)
+			return string.Empty;
+
+		int ActualCount = global::System.Math.Min(
+			Count,
+			S.Length - StartIndex);
+
+		return S.Substring(StartIndex, ActualCount);
 	}
 //function Copy(A; Index, Count: Integer): Variant; overload;
 	public static void Delete(ref string S, int Index, int Count)
 	{
+		/*
+		 * D2CSharp converts Delphi's 1-based string index to a zero-based C#
+		 * index at the call site.  Therefore Index is already zero-based here.
+		 */
+		S ??= string.Empty;
+		if (Count <= 0 || Index < 0 || Index >= S.Length)
+			return;
+
+		int ActualCount = global::System.Math.Min(
+			Count,
+			S.Length - Index);
+		S = S.Remove(Index, ActualCount);
 	}
 	public static void Insert(string Source, ref string S, int Index)
 	{
+		/*
+		 * As with Delete, D2CSharp has already converted the Delphi position
+		 * to a zero-based C# index before calling this helper.
+		 */
+		S ??= string.Empty;
+		Source ??= string.Empty;
+
+		int InsertIndex = global::System.Math.Max(
+			0,
+			global::System.Math.Min(Index, S.Length));
+
+		S = S.Insert(InsertIndex, Source);
 	}
 	public static int Pos(string SubStr, string S)
 	{
-		return 0;
+		if (SubStr == null || S == null)
+			return 0;
+
+		int Position = S.IndexOf(
+			SubStr,
+			global::System.StringComparison.Ordinal);
+
+		return Position < 0 ? 0 : Position + 1;
 	}
 
         // Helper used by generated Substring calls for Delphi Copy(...).
@@ -1024,7 +1230,8 @@ namespace System
 
 		S += new string('\0', NewLength - S.Length);
 	}
-	//# missing function body: public static void SetLength(UntypedPointer A, int NewLength);
+	// Untyped dynamic-array SetLength is a Delphi compiler intrinsic; concrete array resizing
+	// is handled by translated/generic array code rather than by an UntypedPointer runtime call.
 	public static void SetString(ref string S, PChar Buffer, int Len)
 	{
 		if (Len < 0)
@@ -1052,7 +1259,7 @@ namespace System
 		S = new string(Buffer, 0, Len);
 	}
 	//# output of equivalent "SetString" function suppressed
-	//# missing function body: public static void SetString(ref AnsiString S, PAnsiChar Buffer, int Len);
+	// The AnsiString/PAnsiChar SetString adapter is provided by the AnsiString compatibility layer.
 	public static object Slice(out object A, int Count)
 	{
 		A = default;
@@ -1075,24 +1282,42 @@ namespace System
 //procedure Dec(var X; N); overload;
 
 /* Flow-control intrinsics */
-	//# missing function body: public static void Break();
-	//# missing function body: public static void Continue();
 	public static void Exit()
 	{
 	}
 //procedure Exit(Value); overload;
 	public static void Halt()
 	{
+		global::System.Environment.Exit(0);
 	}
-	//# missing function body: public static void Halt(int ExitCode);
+
+	public static void Halt(int ExitCode)
+	{
+		global::System.Environment.Exit(ExitCode);
+	}
 	public static void RunError()
 	{
+		throw new global::System.InvalidOperationException("Delphi runtime error.");
 	}
-	//# missing function body: public static void RunError(byte ErrorCode);
+
+	public static void RunError(byte ErrorCode)
+	{
+		throw new global::System.InvalidOperationException(
+			"Delphi runtime error " + ErrorCode.ToString(
+				global::System.Globalization.CultureInfo.InvariantCulture) + ".");
+	}
 	public static void Assert(bool Condition)
 	{
+		if (!Condition)
+			throw new global::System.Exception("Assertion failed.");
 	}
-	//# missing function body: public static void Assert(bool Condition, string Message);
+
+	public static void Assert(bool Condition, string Message)
+	{
+		if (!Condition)
+			throw new global::System.Exception(
+				string.IsNullOrEmpty(Message) ? "Assertion failed." : Message);
+	}
 	public static void Fail()
 	{
 	}
@@ -1427,12 +1652,70 @@ namespace System
             if (string.IsNullOrEmpty(value))
                 return 1;
 
-            /*
-             * Delphi Val reports a 1-based error position.  For range/overflow
-             * failures there is no invalid lexical character, so report the
-             * position immediately after the input.
-             */
-            return value.Length + 1;
+            string Text = value;
+            int Position = 0;
+
+            while (Position < Text.Length && char.IsWhiteSpace(Text[Position]))
+                Position++;
+
+            if (Position < Text.Length &&
+                (Text[Position] == '+' || Text[Position] == '-'))
+                Position++;
+
+            bool Hex = false;
+            if (Position < Text.Length && Text[Position] == '$')
+            {
+                Hex = true;
+                Position++;
+            }
+            else if (Position + 1 < Text.Length &&
+                     Text[Position] == '0' &&
+                     (Text[Position + 1] == 'x' || Text[Position + 1] == 'X'))
+            {
+                Hex = true;
+                Position += 2;
+            }
+
+            bool DecimalPointSeen = false;
+            bool ExponentSeen = false;
+
+            for (; Position < Text.Length; Position++)
+            {
+                char Ch = Text[Position];
+
+                if (Hex)
+                {
+                    if ((Ch >= '0' && Ch <= '9') ||
+                        (Ch >= 'A' && Ch <= 'F') ||
+                        (Ch >= 'a' && Ch <= 'f'))
+                        continue;
+                    return Position + 1;
+                }
+
+                if (Ch >= '0' && Ch <= '9')
+                    continue;
+
+                if (!DecimalPointSeen && !ExponentSeen && Ch == '.')
+                {
+                    DecimalPointSeen = true;
+                    continue;
+                }
+
+                if (!ExponentSeen && (Ch == 'E' || Ch == 'e'))
+                {
+                    ExponentSeen = true;
+                    if (Position + 1 < Text.Length &&
+                        (Text[Position + 1] == '+' ||
+                         Text[Position + 1] == '-'))
+                        Position++;
+                    continue;
+                }
+
+                return Position + 1;
+            }
+
+            // Range/overflow or an otherwise non-lexical parse failure.
+            return Text.Length + 1;
         }
 
         private static string FLocaleOverride = string.Empty;
@@ -1488,26 +1771,321 @@ namespace System
 	public static void VarArrayRedim(ref object A, int HighBound)
 	{
 	}
-        //break; continue;
-        //uint HInstance; FileMode;
-        //# missing function body: public static char Chr();
-        //# missing function body: public static void Exclude();
-        //# missing function body: public static void FreeAndNil();
-        //# missing function body: public static int High();
-        //# missing function body: public static void Include();
-        //# missing function body: public static int Low();
-        //# missing function body: public static int Ord();
-        //# missing function body: public static int Pred();
-        //# missing function body: public static int SizeOf();
-        //# missing function body: public static string StringOfChar(ref char Ch, /*#_integer*/ object Count);
-        //# missing function body: public static object TypeInfo();
 
-        public static double Sqr(double value)
+        /*
+         * Additional compatibility helpers used by generated D2CSharp code.
+         * Only helpers not already provided above are defined here.
+         */
+
+        public static string ReplaceAtIndex(string s, int i, char value)
         {
-            return value * value;
+            if (s[i] == value)
+                return s;
+
+            char[] letters = s.ToCharArray();
+            letters[i] = value;
+            return new string(letters);
         }
 
-    } // class SystemInterface
+        // ChangeCharacter returns a copy of the passed string sOriginal
+        // where the character at the zero-based C# index Index is replaced.
+        public static string ReplaceCharAt(string sOriginal, int Index, char NewChar)
+        {
+            return ReplaceAtIndex(sOriginal, Index, NewChar);
+        }
+
+        // The int/int overload of MaxSubstringLength is already defined above.
+        public static int MaxSubstringLength(string S, int Position, uint Count)
+        {
+            return MaxSubstringLength(S, Position, checked((int)Count));
+        }
+
+        public static int MaxSubstringLength(string S, uint Position, int Count)
+        {
+            return MaxSubstringLength(S, checked((int)Position), Count);
+        }
+
+        public static int MaxSubstringLength(string S, uint Position, uint Count)
+        {
+            return MaxSubstringLength(S, checked((int)Position), checked((int)Count));
+        }
+
+        public static int High(string X)
+        {
+            return X.Length;
+        }
+
+        public static int Low(string X)
+        {
+            return 1;
+        }
+
+        // Sqr(int/long/float/double) and Odd(int/long) already exist above.
+        public static bool Odd(float value)
+        {
+            return value % 2 != 0;
+        }
+
+        public static bool Odd(double value)
+        {
+            return value % 2 != 0;
+        }
+
+        // Chr(int) already exists above.
+        public static char Chr(uint Arg)
+        {
+            return (char)Arg;
+        }
+
+        public static int Ord(char Arg)
+        {
+            return Arg;
+        }
+
+        public static int Ord(int Arg)
+        {
+            return Arg;
+        }
+
+        public static int Ord(byte Arg)
+        {
+            return Arg;
+        }
+
+        public static long Ord(long Arg)
+        {
+            return Arg;
+        }
+
+        public static T Inc<T>(ref T src) where T : struct
+        {
+            if (!typeof(T).IsEnum)
+                throw new ArgumentException(
+                    String.Format("Argument {0} is not an Enum", typeof(T).FullName));
+
+            T[] Arr = (T[])Enum.GetValues(src.GetType());
+            int j = Array.IndexOf<T>(Arr, src) + 1;
+            src = (Arr.Length == j) ? Arr[0] : Arr[j];
+            return src;
+        }
+
+        public static void Inc(ref byte src) { ++src; }
+        public static void Inc(ref sbyte src) { ++src; }
+        public static void Inc(ref char src) { ++src; }
+        public static void Inc(ref short src) { ++src; }
+        public static void Inc(ref ushort src) { ++src; }
+        public static void Inc(ref int src) { ++src; }
+        public static void Inc(ref uint src) { ++src; }
+        public static void Inc(ref long src) { ++src; }
+        public static void Inc(ref ulong src) { ++src; }
+        public static void Inc(ref float src) { ++src; }
+        public static void Inc(ref double src) { ++src; }
+
+        // Increment the pointed-to value, not the pointer cursor.
+        public static void IncDeref<T>(Pointer<T> pointer, long increment = 1)
+        {
+            pointer.Assign(IncrementDereferencedValue(pointer.Deref(), increment));
+        }
+
+        public static void IncDeref<T>(IPointer<T> pointer, long increment = 1)
+        {
+            if (pointer == null)
+                throw new ArgumentNullException(nameof(pointer));
+            pointer.Assign(IncrementDereferencedValue(pointer.Deref(), increment));
+        }
+
+        public static void IncDeref(Pointer pointer, long increment = 1)
+        {
+            IncDeref<byte>(pointer, increment);
+        }
+
+        public static void IncDeref<T>(Pointer pointer, long increment = 1)
+        {
+            pointer.Write<T>(0, IncrementDereferencedValue(pointer.Read<T>(), increment));
+        }
+
+        public static void IncDeref(UntypedPointer pointer, long increment = 1)
+        {
+            IncDeref<byte>(pointer, increment);
+        }
+
+        public static void IncDeref<T>(UntypedPointer pointer, long increment = 1)
+        {
+            pointer.Write<T>(IncrementDereferencedValue(pointer.Read<T>(), increment));
+        }
+
+        public static void IncDeref(PChar pointer, long increment = 1)
+        {
+            pointer.Assign(IncrementDereferencedValue(pointer.Deref(), increment));
+        }
+
+        public static void IncDeref(PAnsiChar pointer, long increment = 1)
+        {
+            pointer.Assign(IncrementDereferencedValue(pointer.Deref(), increment));
+        }
+
+        private static T IncrementDereferencedValue<T>(T value, long increment)
+        {
+            unchecked
+            {
+                if (typeof(T) == typeof(byte))
+                    return (T)(object)((byte)((byte)(object)value + increment));
+                if (typeof(T) == typeof(sbyte))
+                    return (T)(object)((sbyte)((sbyte)(object)value + increment));
+                if (typeof(T) == typeof(short))
+                    return (T)(object)((short)((short)(object)value + increment));
+                if (typeof(T) == typeof(ushort))
+                    return (T)(object)((ushort)((ushort)(object)value + increment));
+                if (typeof(T) == typeof(char))
+                    return (T)(object)((char)((char)(object)value + increment));
+                if (typeof(T) == typeof(int))
+                    return (T)(object)((int)((int)(object)value + increment));
+                if (typeof(T) == typeof(uint))
+                    return (T)(object)((uint)((uint)(object)value + increment));
+                if (typeof(T) == typeof(long))
+                    return (T)(object)((long)(object)value + increment);
+                if (typeof(T) == typeof(ulong))
+                    return (T)(object)((ulong)(object)value + (ulong)increment);
+                if (typeof(T) == typeof(nint))
+                    return (T)(object)((nint)(object)value + (nint)increment);
+                if (typeof(T) == typeof(nuint))
+                    return (T)(object)((nuint)(object)value + (nuint)increment);
+                if (typeof(T) == typeof(float))
+                    return (T)(object)((float)(object)value + increment);
+                if (typeof(T) == typeof(double))
+                    return (T)(object)((double)(object)value + increment);
+            }
+
+            throw new NotSupportedException(
+                "IncDeref does not support values of type '" + typeof(T).FullName + "'.");
+        }
+
+        public static void DecDeref<T>(Pointer<T> pointer, long decrement = 1)
+        {
+            pointer.Assign(DecrementDereferencedValue(pointer.Deref(), decrement));
+        }
+
+        public static void DecDeref<T>(IPointer<T> pointer, long decrement = 1)
+        {
+            if (pointer == null)
+                throw new ArgumentNullException(nameof(pointer));
+            pointer.Assign(DecrementDereferencedValue(pointer.Deref(), decrement));
+        }
+
+        public static void DecDeref(Pointer pointer, long decrement = 1)
+        {
+            DecDeref<byte>(pointer, decrement);
+        }
+
+        public static void DecDeref<T>(Pointer pointer, long decrement = 1)
+        {
+            pointer.Write<T>(0, DecrementDereferencedValue(pointer.Read<T>(), decrement));
+        }
+
+        public static void DecDeref(UntypedPointer pointer, long decrement = 1)
+        {
+            DecDeref<byte>(pointer, decrement);
+        }
+
+        public static void DecDeref<T>(UntypedPointer pointer, long decrement = 1)
+        {
+            pointer.Write<T>(DecrementDereferencedValue(pointer.Read<T>(), decrement));
+        }
+
+        public static void DecDeref(PChar pointer, long decrement = 1)
+        {
+            pointer.Assign(DecrementDereferencedValue(pointer.Deref(), decrement));
+        }
+
+        public static void DecDeref(PAnsiChar pointer, long decrement = 1)
+        {
+            pointer.Assign(DecrementDereferencedValue(pointer.Deref(), decrement));
+        }
+
+        private static T DecrementDereferencedValue<T>(T value, long decrement)
+        {
+            unchecked
+            {
+                if (typeof(T) == typeof(byte))
+                    return (T)(object)((byte)((byte)(object)value - decrement));
+                if (typeof(T) == typeof(sbyte))
+                    return (T)(object)((sbyte)((sbyte)(object)value - decrement));
+                if (typeof(T) == typeof(short))
+                    return (T)(object)((short)((short)(object)value - decrement));
+                if (typeof(T) == typeof(ushort))
+                    return (T)(object)((ushort)((ushort)(object)value - decrement));
+                if (typeof(T) == typeof(char))
+                    return (T)(object)((char)((char)(object)value - decrement));
+                if (typeof(T) == typeof(int))
+                    return (T)(object)((int)((int)(object)value - decrement));
+                if (typeof(T) == typeof(uint))
+                    return (T)(object)((uint)((uint)(object)value - decrement));
+                if (typeof(T) == typeof(long))
+                    return (T)(object)((long)(object)value - decrement);
+                if (typeof(T) == typeof(ulong))
+                    return (T)(object)((ulong)(object)value - (ulong)decrement);
+                if (typeof(T) == typeof(nint))
+                    return (T)(object)((nint)(object)value - (nint)decrement);
+                if (typeof(T) == typeof(nuint))
+                    return (T)(object)((nuint)(object)value - (nuint)decrement);
+                if (typeof(T) == typeof(float))
+                    return (T)(object)((float)(object)value - decrement);
+                if (typeof(T) == typeof(double))
+                    return (T)(object)((double)(object)value - decrement);
+            }
+
+            throw new NotSupportedException(
+                "DecDeref does not support values of type '" + typeof(T).FullName + "'.");
+        }
+
+        public static T Dec<T>(ref T src) where T : struct
+        {
+            if (!typeof(T).IsEnum)
+                throw new ArgumentException(
+                    String.Format("Argument {0} is not an Enum", typeof(T).FullName));
+
+            T[] Arr = (T[])Enum.GetValues(src.GetType());
+            int j = Array.IndexOf<T>(Arr, src) - 1;
+            src = (j == 0) ? Arr[0] : Arr[j];
+            return src;
+        }
+
+        public static void Dec(ref byte src) { --src; }
+        public static void Dec(ref sbyte src) { --src; }
+        public static void Dec(ref char src) { --src; }
+        public static void Dec(ref short src) { --src; }
+        public static void Dec(ref ushort src) { --src; }
+        public static void Dec(ref int src) { --src; }
+        public static void Dec(ref uint src) { --src; }
+        public static void Dec(ref long src) { --src; }
+        public static void Dec(ref ulong src) { --src; }
+        public static void Dec(ref float src) { --src; }
+        public static void Dec(ref double src) { --src; }
+
+        // Generic Succ<T>/Pred<T>, plus int/char overloads, already exist above.
+        public static byte Succ(byte src) { return ++src; }
+        public static sbyte Succ(sbyte src) { return ++src; }
+        public static short Succ(short src) { return ++src; }
+        public static ushort Succ(ushort src) { return ++src; }
+        public static uint Succ(uint src) { return ++src; }
+        public static long Succ(long src) { return ++src; }
+        public static ulong Succ(ulong src) { return ++src; }
+        public static float Succ(float src) { return ++src; }
+        public static double Succ(double src) { return ++src; }
+
+        public static byte Pred(byte src) { return --src; }
+        public static sbyte Pred(sbyte src) { return --src; }
+        public static short Pred(short src) { return --src; }
+        public static ushort Pred(ushort src) { return --src; }
+        public static uint Pred(uint src) { return --src; }
+        public static long Pred(long src) { return --src; }
+        public static ulong Pred(ulong src) { return --src; }
+        public static float Pred(float src) { return --src; }
+        public static double Pred(double src) { return --src; }
+
+        //break; continue;
+        //uint HInstance; FileMode;
+} // class SystemInterface
 
 
 file class SystemImplementation

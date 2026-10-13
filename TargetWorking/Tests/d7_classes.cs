@@ -148,6 +148,10 @@ namespace D7_classes
                     return FLastChannel;
                 }
             }
+
+            public TSensor()
+            {
+            }
         }
 
         public class TDevicePanel : TObject

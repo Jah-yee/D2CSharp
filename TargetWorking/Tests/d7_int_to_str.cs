@@ -57,10 +57,10 @@ namespace D7_int_to_str
             result = result && CheckResult3;
             CheckResult4 = ((LargeValue).ToString() == "7000000001");
             result = result && CheckResult4;
-            //CheckResult5 = (IntToHex(0x2A, 4) == "002A");
-            //result = result && CheckResult5;
-            //CheckResult6 = (IntToHex(255, 2) == "FF");
-            //result = result && CheckResult6;
+            CheckResult5 = (IntToHex(0x2A, 4) == "002A");
+            result = result && CheckResult5;
+            CheckResult6 = (IntToHex(255, 2) == "FF");
+            result = result && CheckResult6;
             return result;
         }
 
