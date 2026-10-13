@@ -1,21 +1,32 @@
 # UserCode
 
-This directory is used to preserve manually reworked UserCode files.
+This directory is part of the local UserCode workflow for translating your own
+Delphi source files with D2CSharp.
 
-It contains only files whose working versions differ from the corresponding files in:
+The corresponding Delphi sources are placed in:
+
+```text
+Source/UserCode
+```
+
+During the conversion workflow, C# files may be generated, copied, preserved,
+or restored between the following directories:
 
 ```text
 TargetGenerated/UserCode
+TargetWorking/UserCode
+TargetReworked/UserCode
 ```
 
-The directory is maintained as part of the D2CSharp workflow so that manual corrections can survive regeneration of the translated C# files.
+These three directories intentionally contain the same `README.md` file so
+that the README itself does not appear as a manually reworked file.
 
-Normally, files should be edited in:
+UserCode files are intended for local use only and are ignored by Git. This
+allows private or proprietary Delphi sources to be translated without
+accidentally adding them to the D2CSharp repository.
+
+Do not place repository test files here. D2CSharp tests belong in:
 
 ```text
-TargetWorking/UserCode
+Source/Tests
 ```
-
-rather than directly in this directory.
-
-UserCode files are intended for local use only and are ignored by Git.
