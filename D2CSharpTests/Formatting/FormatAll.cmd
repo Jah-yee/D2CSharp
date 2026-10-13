@@ -3,29 +3,29 @@ setlocal
 
 pushd "%~dp0"
 
-echo Formatting TestsGenerated...
+echo Formatting TargetGenerated (Tests and UserCode)...
 dotnet format GeneratedFormatting.csproj whitespace --no-restore
 
 if errorlevel 1 (
     echo.
-    echo Formatting TestsGenerated failed.
+    echo Formatting TargetGenerated failed.
     popd
     exit /b 1
 )
 
 echo.
-echo Formatting TestsWorking...
+echo Formatting TargetWorking (Tests and UserCode)...
 dotnet format WorkingFormatting.csproj whitespace --no-restore
 
 if errorlevel 1 (
     echo.
-    echo Formatting TestsWorking failed.
+    echo Formatting TargetWorking failed.
     popd
     exit /b 1
 )
 
 echo.
-echo Both directories were formatted successfully.
+echo TargetGenerated and TargetWorking were formatted successfully.
 
 popd
 exit /b 0

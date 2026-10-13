@@ -15,8 +15,11 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Compile Include="..\..\TestsWorking\**\*.cs">
-      <Link>TestsWorking\%(RecursiveDir)%(Filename)%(Extension)</Link>
+    <Compile Include="..\..\TargetWorking\Tests\**\*.cs">
+      <Link>Tests\%(RecursiveDir)%(Filename)%(Extension)</Link>
+    </Compile>
+    <Compile Include="..\..\TargetWorking\UserCode\**\*.cs">
+      <Link>UserCode\%(RecursiveDir)%(Filename)%(Extension)</Link>
     </Compile>
   </ItemGroup>
 

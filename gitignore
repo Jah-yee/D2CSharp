@@ -93,3 +93,18 @@ Desktop.ini
 *.rej
 *.swp
 *.swo
+
+# UserCode
+Source/UserCode/*
+!Source/UserCode/README.md
+
+TargetGenerated/UserCode/*
+!TargetGenerated/UserCode/README.md
+
+TargetReworked/UserCode/*
+!TargetReworked/UserCode/README.md
+
+TargetWorking/UserCode/*
+!TargetWorking/UserCode/README.md
+
+
